@@ -13,6 +13,16 @@ app.get("/user", (req, res) => {
   });
 });
 
+app.get("/user/:userId", (req, res) => {
+  console.log(req.params);
+  res.send("Executed successfully!");
+});
+
+app.get("/userQuery", (req, res) => {
+  console.log(req.query);
+  res.send("Executed successfully!");
+});
+
 app.post("/user", (req, res) => {
   res.send("Data saved successfully!");
 });
