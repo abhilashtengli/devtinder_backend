@@ -7,7 +7,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/helloo", (req, res) => {
-  res.send("Hello, test is successful");
+  res.send("Hello is successful");
+});
+app.get("/test", (req, res) => {
+  res.send("Test is successful");
 });
 
 app.listen(4000, () => {
