@@ -32,11 +32,39 @@ app.get("/user", async (req, res) => {
 });
 
 //Feed API - Get/feed - get all the users from the database
-
 app.get("/feed", async (req, res) => {
   try {
     const users = await User.find({});
     res.send(users);
+  } catch (err) {
+    res.status(400).send("Something went wrong");
+  }
+});
+
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(404).send("Invalid User ID");
+    }
+
+    await User.findByIdAndDelete(userId);
+    res.send("User with userId " + userId + " deleted successfully");
+  } catch (err) {
+    res.status(400).send("Something went wrong");
+  }
+});
+
+app.put("/user", async (req, res) => {
+  const userId = req.body.userId;
+  const data = req.body;
+
+  try {
+    await User.findByIdAndUpdate({ _id: userId }, data);
+    res.send("User Updated successfully");
   } catch (err) {
     res.status(400).send("Something went wrong");
   }
