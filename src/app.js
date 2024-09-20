@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const { signupValidation } = require("./utils/Validation");
 const validator = require("validator");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middlerware/auth");
 app.use(express.json());
 
