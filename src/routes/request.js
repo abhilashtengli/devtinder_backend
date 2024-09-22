@@ -52,9 +52,15 @@ requestRouter.post(
         status,
       });
 
+      const toUser = await User.findById(toUserId);
+
       const data = await connectionRequest.save();
       res.json({
-        message: "Connection request sent",
+        message: ` ${
+          status === "interested"
+            ? `${req.user.firstName} is interested in ${toUser.firstName}`
+            : `${req.user.firstName} ignored ${toUser.firstName}`
+        }`,
         data,
       });
     } catch (err) {
