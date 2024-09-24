@@ -19,7 +19,6 @@ requestRouter.post(
       }
 
       const isUserExist = await User.findById(toUserId);
-      console.log(isUserExist);
       if (!isUserExist) {
         throw new Error(
           "The User does not exist whom you are trying to send request "
