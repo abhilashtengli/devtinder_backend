@@ -5,6 +5,17 @@ const bcrypt = require("bcrypt");
 const { signupValidation } = require("../utils/Validation");
 const validator = require("validator");
 
+// const User_safe_data = "firstName lastName age skills gender photoUrl about";
+const User_safe_data = [
+  "firstName",
+  "lastName",
+  "age",
+  "skills",
+  "gender",
+  "photoUrl",
+  "about",
+];
+
 authRouter.post("/signup", async (req, res) => {
   try {
     signupValidation(req);
@@ -45,7 +56,15 @@ authRouter.post("/login", async (req, res) => {
       res.cookie("token", token, {
         expires: new Date(Date.now() + 8 * 36000000),
       });
-      res.send("Login Successful");
+
+      const dataToSend = User_safe_data.reduce((obj, key) => {
+        if (user[key] !== undefined) {
+          obj[key] = user[key];
+        }
+        return obj;
+      }, {});
+
+      res.send(dataToSend);
     } else {
       throw new Error("Invalid Credentials Ps");
     }

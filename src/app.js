@@ -2,12 +2,21 @@ const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
 
+const cors = require("cors");
 const { signupValidation } = require("./utils/Validation");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", //You need to whitelist the domain to avoid Cors
+    credentials: true,
+  })
+);
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -23,6 +32,6 @@ connectDB()
       console.log("Server is listening on port 4000");
     });
   })
-  .catch(() => {
-    console.error("Database connection not established");
+  .catch((err) => {
+    console.error("Database connection not established ");
   });
