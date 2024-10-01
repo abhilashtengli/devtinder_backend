@@ -65,6 +65,8 @@ const userSchema = new mongoose.Schema(
     },
     photoUrl: {
       type: String,
+      default:
+        "https://www.eirim.ie/eirim2017/wp-content/uploads/2016/09/dummy-profile-pic.jpg",
       validate(value) {
         if (!validator.isURL(value)) {
           throw new Error("Invalid photo URL : " + value);

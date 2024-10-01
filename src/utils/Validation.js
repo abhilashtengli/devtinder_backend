@@ -1,5 +1,6 @@
 const validator = require("validator");
 const User = require("../models/user");
+const { response } = require("express");
 const signupValidation = (req) => {
   const { firstName, lastName, emailId, password } = req.body;
 
@@ -13,33 +14,39 @@ const signupValidation = (req) => {
 };
 
 const validateProfileData = (req) => {
-  const allowedProfileData = [
-    "firstName",
-    "lastName",
-    "about",
-    "skills",
-    "age",
-    "gender",
-    "photoUrl",
-  ];
-  user = req.body;
+  try {
+    const allowedProfileData = [
+      "firstName",
+      "lastName",
+      "about",
+      "skills",
+      "age",
+      "gender",
+      "photoUrl",
+    ];
+    user = req.body;
 
-  const isAllowedProfileData = Object.keys(user).every((field) =>
-    allowedProfileData.includes(field)
-  );
+    const isAllowedProfileData = Object.keys(user).every((field) =>
+      allowedProfileData.includes(field)
+    );
 
-  if (!isAllowedProfileData) {
-    return false;
+    if (!isAllowedProfileData) {
+      return false;
+    }
+
+    const tempUser = new User(user);
+    const validationError = tempUser.validateSync({
+      validateModifiedOnly: true,
+    });
+
+    if (validationError) {
+      throw new Error("ERROR : " + validationError.message);
+    }
+
+    return true;
+  } catch (err) {
+    response.error(err.message);
   }
-
-  const tempUser = new User(user);
-  const validationError = tempUser.validateSync({ validateModifiedOnly: true });
-
-  if (validationError) {
-    throw new Error("ERROR : " + validationError.message);
-  }
-
-  return true;
 };
 
 module.exports = { signupValidation, validateProfileData };

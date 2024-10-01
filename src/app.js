@@ -16,7 +16,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.options("*", cors());
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,6 +24,7 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+
 connectDB()
   .then(() => {
     console.log("Database connection established");
