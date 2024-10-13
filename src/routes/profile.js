@@ -17,7 +17,7 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
 profileRouter.put("/profile/edit", userAuth, async (req, res) => {
   try {
     if (!validateProfileData(req)) {
-      return ("Provided Data is not valid");
+      return "Provided Data is not valid";
     }
     const loggedInUser = req.user;
     Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
@@ -57,5 +57,5 @@ profileRouter.patch("/profile/password", userAuth, async (req, res) => {
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }
-}); 
+});
 module.exports = profileRouter;
