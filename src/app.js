@@ -1,7 +1,6 @@
 const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
-
 const cors = require("cors");
 const { signupValidation } = require("./utils/Validation");
 const cookieParser = require("cookie-parser");
@@ -9,11 +8,11 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-
+require("dotenv").config();  
 app.use(
   cors({
     origin: "http://localhost:5173", //You need to whitelist the domain to avoid Cors
-    credentials: true,
+    credentials: true
   })
 );
 app.options("*", cors());
