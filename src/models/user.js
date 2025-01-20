@@ -58,10 +58,17 @@ const userSchema = new mongoose.Schema(
         message: `{VALUE} is invalid gender`
       }
       // validate(value) {
-      //   if (!["male", "female", "others"].includes(value)) {
+      //   if (!["male", "female", "others",].includes(value)) {
       //     throw new Error("Invalid gender");
       //   }
       // },
+    },
+    isPremium: {
+      type: Boolean,
+      default: false
+    },
+    memberShipType: {
+      type: String
     },
     photoUrl: {
       type: String,
@@ -84,7 +91,7 @@ userSchema.methods.getJWT = async function () {
   const user = this;
 
   const token = await jwt.sign({ _id: user._id }, "Dev@Tinder$790", {
-    expiresIn: "7d",
+    expiresIn: "7d"
   });
   return token;
 };
