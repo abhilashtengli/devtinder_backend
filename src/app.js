@@ -9,6 +9,8 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const paymentRouter = require("./routes/payment");
+const http = require("http");
+const initializeSocket = require("./utils/socket");
 require("dotenv").config();
 app.use(
   cors({
@@ -26,11 +28,13 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
 
+const server = http.createServer(app);
+initializeSocket(server);
 connectDB()
   .then(() => {
     console.log("Database connection established");
 
-    app.listen(4000, () => {
+    server.listen(4000, () => {
       console.log("Server is listening on port 4000");
     });
   })
