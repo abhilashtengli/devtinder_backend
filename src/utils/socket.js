@@ -9,13 +9,22 @@ const initializeSocket = (server) => {
   });
   io.on("connection", (socket) => {
     //   Handle events
+    console.log("A user connected: " + socket.id);
+
     socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
       const roomId = [userId, targetUserId].sort().join("_");
       console.log(firstName + " Joining the room : " + roomId);
 
       socket.join(roomId);
     });
-    socket.on("sendMessage", () => {});
+    socket.on("sendMessage", ({ text, firstName, userId, targetUserId }) => {
+      console.log(text + " " + firstName + " " + userId + " " + targetUserId);
+      const roomId = [userId, targetUserId].sort().join("_");
+      console.log(firstName + " : " + text);
+      io.to(roomId).emit("messageReceived", { firstName, text });
+      console.log(io.to(roomId).emit("messageReceived", { firstName, text }));
+    });
+
     socket.on("disconnect", () => {});
   });
 };
